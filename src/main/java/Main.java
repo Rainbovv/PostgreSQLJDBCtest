@@ -7,6 +7,8 @@ public class Main {
 
         DBConnector connector = DBConnector.getInstance();
 
+        connector.connect();
+
         connector.createTable("test");
 
         connector.addColumn("test", "id","serial", "primary key");
@@ -37,5 +39,7 @@ public class Main {
         connector.dropColumn("test", "name");
 
         connector.dropTable("test");
+
+        connector.closeConnection();
     }
 }

@@ -1,20 +1,44 @@
 import java.sql.*;
 
 public class DBConnector {
-	
+
+	Connection connection;
+	Statement statement;
+
 	private DBConnector() {}
+
+	public void connect() {
+
+		String URL = "jdbc:postgresql://localhost/ecommerce?user=postgres" +
+				"&password=Rainbow@446571&ssl=false";
+		try {
+
+			connection = DriverManager.getConnection(URL);
+			statement = connection.createStatement();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void closeConnection() {
+
+		try {
+
+			statement.close();
+			connection.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 
 	public ResultSet executeQuery(String query, boolean resultSetNeeded) {
 
 		ResultSet resultSet = null;
-
-		String URL = "jdbc:postgresql://localhost/ecommerce?user=postgres" +
-				"&password=Rainbow@446571&ssl=false";
 		
-		try (Connection connection = DriverManager.getConnection(URL);
-		     Statement statement = connection.createStatement()) {
-
+		try {
 			if (resultSetNeeded) resultSet = statement.executeQuery(query);
 
 			else statement.executeUpdate(query);
